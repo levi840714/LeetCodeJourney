@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Journey Settings</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="config-simple.js"></script>
+    <style>
+        .settings-container {
+            min-width: 400px;
+            padding: 20px;
+        }
+        .setting-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .setting-group h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+        .radio-group label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        .radio-group input[type="radio"] {
+            margin-right: 8px;
+        }
+        .custom-url-group {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        .custom-url-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        .status-online { background-color: #4CAF50; }
+        .status-offline { background-color: #f44336; }
+        .status-testing { background-color: #FF9800; }
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary { 
+            background-color: #007cba; 
+            color: white; 
+        }
+        .btn-secondary { 
+            background-color: #6c757d; 
+            color: white; 
+        }
+        .btn-danger { 
+            background-color: #dc3545; 
+            color: white; 
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .info-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .current-config {
+            margin-top: 10px;
+            padding: 8px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <h3>⚙️ LeetCode Journey Settings</h3>
+        
+        <div class="setting-group">
+            <h4>API Configuration</h4>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="api-mode" value="local" id="local-radio">
+                    Local Development 
+                    <span class="status-indicator" id="local-status"></span>
+                    <small>(http://127.0.0.1:5000)</small>
+                </label>
+                <label>
+                    <input type="radio" name="api-mode" value="cloud" id="cloud-radio">
+                    Cloud Functions
+                    <span class="status-indicator" id="cloud-status"></span>
+                </label>
+                <div class="custom-url-group" id="cloud-url-group" style="display: none;">
+                    <input type="url" id="cloud-url" placeholder="https://us-central1-your-project.cloudfunctions.net/leetcode-journey" />
+                    <div class="info-box">
+                        💡 Get your Cloud Function URL after deployment:<br>
+                        <code>gcloud functions describe leetcode-journey --region=us-central1 --format="value(httpsTrigger.url)"</code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="current-config">
+                <strong>Current API:</strong> <span id="current-api">Loading...</span>
+            </div>
+        </div>
+        
+        <div class="setting-group">
+            <h4>Connection Status</h4>
+            <div id="connection-status">Testing connections...</div>
+            <button class="btn btn-secondary" id="test-connection">🔍 Test Connection</button>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-primary" id="save-settings">💾 Save Settings</button>
+            <button class="btn btn-secondary" id="auto-detect">🔍 Auto Detect</button>
+            <button class="btn btn-danger" id="reset-settings">🔄 Reset to Default</button>
+        </div>
+        
+        <div class="info-box">
+            <strong>💡 Quick Setup:</strong><br>
+            • For local development: Select "Local Development"<br>
+            • After Cloud Functions deployment: Select "Cloud Functions" and paste your function URL<br>
+            • Use "Auto Detect" to automatically find the best available endpoint
+        </div>
+    </div>
+    
+    <script src="settings.js"></script>
+</body>
+</html>

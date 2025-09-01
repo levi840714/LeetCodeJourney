@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+
+# Local development files
+.env
+*.log
+.DS_Store
+
+# Chrome extension (not needed for Cloud Functions)
+chrome_extension/
+
+# Scripts (not needed for Cloud Functions)
+scripts/
+
+# Development files
+Makefile
+README.md
+deploy-cf.sh
+.git/
+.gitignore
+
+# Backup files
+*.backup
+*.tmp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

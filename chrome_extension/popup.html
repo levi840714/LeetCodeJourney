@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Journey</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="config-simple.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h3>Log LeetCode Submission</h3>
+        <div id="loading">Loading problem data...</div>
+        <div id="error-message" class="hidden"></div>
+        <form id="log-form" class="hidden">
+            <div class="form-group-split">
+                <div class="form-group">
+                    <label for="problem_number">Problem #</label>
+                    <input type="text" id="problem_number" name="problem_number" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" name="difficulty" required>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name">Problem Name</label>
+                <input type="text" id="name" name="name" readonly>
+            </div>
+            <div class="form-group">
+                <label for="topic">Topic / Tags</label>
+                <div id="topic-container">
+                    <div id="selected-topics" class="selected-topics"></div>
+                    <div id="available-topics" class="available-topics">
+                        <div class="topic-tag" data-value="Array">Array</div>
+                        <div class="topic-tag" data-value="Hash Table">Hash Table</div>
+                        <div class="topic-tag" data-value="Linked List">Linked List</div>
+                        <div class="topic-tag" data-value="Math">Math</div>
+                        <div class="topic-tag" data-value="Two Pointers">Two Pointers</div>
+                        <div class="topic-tag" data-value="String">String</div>
+                        <div class="topic-tag" data-value="Binary Search">Binary Search</div>
+                        <div class="topic-tag" data-value="Sliding Window">Sliding Window</div>
+                        <div class="topic-tag" data-value="Dynamic Programming">Dynamic Programming</div>
+                        <div class="topic-tag" data-value="Backtracking">Backtracking</div>
+                        <div class="topic-tag" data-value="Stack">Stack</div>
+                        <div class="topic-tag" data-value="Heap">Heap</div>
+                        <div class="topic-tag" data-value="Greedy">Greedy</div>
+                        <div class="topic-tag" data-value="Graph">Graph</div>
+                        <div class="topic-tag" data-value="Trie">Trie</div>
+                        <div class="topic-tag" data-value="Tree">Tree</div>
+                        <div class="topic-tag" data-value="Binary Tree">Binary Tree</div>
+                        <div class="topic-tag" data-value="Depth-First Search">Depth-First Search</div>
+                        <div class="topic-tag" data-value="Breadth-First Search">Breadth-First Search</div>
+                        <div class="topic-tag" data-value="Union Find">Union Find</div>
+                        <div class="topic-tag" data-value="Bit Manipulation">Bit Manipulation</div>
+                        <div class="topic-tag" data-value="Recursion">Recursion</div>
+                        <div class="topic-tag" data-value="Sorting">Sorting</div>
+                        <div class="topic-tag" data-value="Design">Design</div>
+                    </div>
+                </div>
+                <input type="hidden" id="topic" name="topic" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes" rows="3" placeholder="Any thoughts or key takeaways?"></textarea>
+            </div>
+            <button type="submit" id="submit-btn">Save to Google Sheet</button>
+        </form>
+        <div id="success-message" class="hidden">Successfully logged!</div>
+        
+        <!-- Settings link -->
+        <div style="margin-top: 10px; text-align: center;">
+            <a href="quick-settings.html" target="_blank" style="font-size: 12px; color: #666; text-decoration: none;">
+                ⚙️ Settings
+            </a>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

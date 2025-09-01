@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LeetCode Journey - Storage Debug</title>
+    <style>
+        body {
+            width: 400px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .storage-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .button {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #45a049;
+        }
+        .button.danger {
+            background: #f44336;
+        }
+        .button.danger:hover {
+            background: #da190b;
+        }
+        #status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h2>🔍 LeetCode Journey Storage Debug</h2>
+    
+    <div class="section">
+        <h3>Current Storage Contents</h3>
+        <div id="storage-contents">Loading...</div>
+        <button class="button" onclick="refreshStorage()">🔄 Refresh</button>
+    </div>
+    
+    <div class="section">
+        <h3>Current Configuration</h3>
+        <div id="current-config">Loading...</div>
+        <button class="button" onclick="refreshConfig()">🔄 Refresh Config</button>
+    </div>
+    
+    <div class="section">
+        <h3>Test Actions</h3>
+        <button class="button" onclick="testSave()">💾 Test Save</button>
+        <button class="button" onclick="testLoad()">📖 Test Load</button>
+        <button class="button danger" onclick="clearStorage()">🗑️ Clear All</button>
+    </div>
+    
+    <div id="status"></div>
+    
+    <script src="config-simple.js"></script>
+    <script>
+        let config;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            config = new SimpleConfigManager();
+            await config.init();
+            refreshAll();
+        });
+        
+        async function refreshAll() {
+            await refreshStorage();
+            await refreshConfig();
+        }
+        
+        async function refreshStorage() {
+            try {
+                chrome.storage.local.get(null, (items) => {
+                    const container = document.getElementById('storage-contents');
+                    if (Object.keys(items).length === 0) {
+                        container.innerHTML = '<div class="storage-item">No items in storage</div>';
+                    } else {
+                        container.innerHTML = '';
+                        for (const [key, value] of Object.entries(items)) {
+                            const div = document.createElement('div');
+                            div.className = 'storage-item';
+                            div.innerHTML = `<strong>${key}:</strong> ${JSON.stringify(value)}`;
+                            container.appendChild(div);
+                        }
+                    }
+                });
+            } catch (error) {
+                showStatus('Error reading storage: ' + error.message, 'error');
+            }
+        }
+        
+        async function refreshConfig() {
+            try {
+                await config.init();
+                const currentConfig = config.getConfig();
+                const container = document.getElementById('current-config');
+                container.innerHTML = `
+                    <div class="storage-item"><strong>API URL:</strong> ${currentConfig.apiUrl}</div>
+                    <div class="storage-item"><strong>Use Cloud:</strong> ${currentConfig.useCloud}</div>
+                    <div class="storage-item"><strong>Endpoint:</strong> ${currentConfig.endpoint}</div>
+                `;
+            } catch (error) {
+                showStatus('Error reading config: ' + error.message, 'error');
+            }
+        }
+        
+        async function testSave() {
+            try {
+                const testUrl = 'https://asia-east1-leetcode-joureny.cloudfunctions.net/leetcode-journey';
+                await config.saveConfig(testUrl, true);
+                showStatus('✅ Test save successful!', 'success');
+                setTimeout(refreshAll, 500);
+            } catch (error) {
+                showStatus('❌ Test save failed: ' + error.message, 'error');
+            }
+        }
+        
+        async function testLoad() {
+            try {
+                await config.init();
+                const loadedConfig = config.getConfig();
+                showStatus('✅ Test load successful: ' + JSON.stringify(loadedConfig), 'success');
+            } catch (error) {
+                showStatus('❌ Test load failed: ' + error.message, 'error');
+            }
+        }
+        
+        async function clearStorage() {
+            if (confirm('Are you sure you want to clear all storage?')) {
+                chrome.storage.local.clear(() => {
+                    showStatus('✅ Storage cleared!', 'info');
+                    setTimeout(refreshAll, 500);
+                });
+            }
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = type;
+            status.style.display = 'block';
+            
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

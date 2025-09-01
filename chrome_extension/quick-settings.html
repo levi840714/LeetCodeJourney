@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Journey - Quick Settings</title>
+    <style>
+        body {
+            width: 350px;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #007cba;
+        }
+        .option {
+            margin: 15px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            border-color: #007cba;
+            background-color: #f0f8ff;
+        }
+        .option.selected {
+            border-color: #007cba;
+            background-color: #e3f2fd;
+        }
+        .option-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .option-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .custom-url {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.8; }
+        .btn-primary { background: #007cba; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .current-config {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 12px;
+            word-break: break-all;
+        }
+    </style>
+    <script src="config-simple.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h3>⚙️ API Configuration</h3>
+    </div>
+    
+    <div class="option" id="local-option">
+        <div class="option-title">🏠 Local Development</div>
+        <div class="option-desc">Use local Flask server (http://127.0.0.1:5000)</div>
+    </div>
+    
+    <div class="option" id="cloud-option">
+        <div class="option-title">☁️ Cloud Functions</div>
+        <div class="option-desc">Use deployed Google Cloud Function</div>
+        <input type="url" class="custom-url" id="cloud-url" 
+               placeholder="https://us-central1-your-project.cloudfunctions.net/leetcode-journey" 
+               style="display: none;">
+    </div>
+    
+    <div class="current-config">
+        <strong>Current:</strong> <span id="current-endpoint">Loading...</span>
+    </div>
+    
+    <div id="status" class="status" style="display: none;"></div>
+    
+    <div class="buttons">
+        <button class="btn btn-primary" id="save-btn">💾 Save</button>
+        <button class="btn btn-secondary" id="test-btn">🔍 Test</button>
+    </div>
+
+    <script src="quick-settings.js"></script>
+</body>
+</html>
